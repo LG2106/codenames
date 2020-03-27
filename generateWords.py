@@ -2,54 +2,39 @@
 import random
 import sys
 
-words = ["mot1", "mot2", "mot3", "mot4", "mot5", "mot6", "mot7", "mot8", "mot9", "mot10", "mot11", "mot12"]
-colors = ["red", "red", "red", "blue", "blue", "blue", "grey", "grey", "black"]
+fw = open("words.txt", "w")
+fw.write('')
+fw.close()
 
-param=sys.argv[1]
-grille=9
+fc = open("colors.txt", "w")
+fc.write('')
+fc.close()
 
-def assignColors(word):
-  color_words=[]
-  i=0
-  while i < grille:
-    color = random.choice(colors)
-    colors.remove(color)
-    if color == "red":
-        return '\e[0;31m' + word + '\e[0m'
+grille = 25
+words = []
+fileWords = open('dico.txt').read().split()
+colors = ['blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'grey', 'grey', 'grey', 'grey', 'grey', 'grey', 'grey', 'grey', 'black']
 
-    if color == "blue":
-        return '\e[1;34m' + word + '\e[0m'
+for word in fileWords:
+  words.append(word)
 
-    if color == "grey":
-        return '\e[0;37m' + word + '\e[0m'
-
-    if color == "black":
-        return '\e[1;33m' + word + '\e[0m'
-
-    return 'error'
-
-def generateWords(role):
-  game_words=[]
+def createGameFiles():
   i=0
   while i < grille:
     word = random.choice(words)
     words.remove(word)
+    color = random.choice(colors)
+    colors.remove(color)
 
-    if role == "master":
-      wordColor=assignColors(word)
-      game_words.insert(i, wordColor)
+    fw = open("words.txt", "a")
+    fw.write(word + ' ')
+    fw.close()
+    
+    fc = open("colors.txt", "a")
+    fc.write(color + ' ')
+    fc.close()
 
-    if role == "player":
-      game_words.insert(i, word)
+    i = i+1
 
-    i=i+1
-
-  return game_words
-
-game=generateWords(param)
-
-j=0
-while j < grille:
-  print (game[j])
-  j=j+1
+game=createGameFiles()
 
